@@ -87,13 +87,24 @@ for _, row in df.iterrows():
 
         data = f"{str(dia).zfill(2)}/{mes_num}/{ANO}"
 
+        # linhas_saida.append({
+        #     "DATA": data,
+        #     "HORA_INICIO": hora_inicio,
+        #     "HORA_FIM": hora_fim,
+        #     "EVENTO": row["EVENTO"],
+        #     "LOCAL": row["LOCAL"],
+        #     "RESPONSAVEL": row["RESPONSAVEL"]
+        # })
+
         linhas_saida.append({
-            "DATA": data,
-            "HORA_INICIO": hora_inicio,
-            "HORA_FIM": hora_fim,
-            "EVENTO": row["EVENTO"],
-            "LOCAL": row["LOCAL"],
-            "RESPONSAVEL": row["RESPONSAVEL"]
+            "Subject": row["EVENTO"],
+            "Start Date": data,
+            "End Date": data,
+            "Start Time": hora_inicio,
+            "End Time": hora_fim,
+            "All Day Event": "False",
+            "Description": row["RESPONSAVEL"],
+            "Location": row["LOCAL"]
         })
 
 
