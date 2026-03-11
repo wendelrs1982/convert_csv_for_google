@@ -1,10 +1,15 @@
 # Configurações Gerais
-ANO_AGENDA="2026"
+ANO_AGENDA="0000"
+LOCAL_EVENTO = "A definir"
 
-#Configurações do XLSX
-PASTA_IN_XLSX = "xlsx_in"
-NOME_ARQUIVO_XLSX = "layout_planilha.xlsx"
+# Configurações do XLSX
+PASTA_IN_XLSX = "INFORME_O_NOME_DA_PASTA"
+NOME_ARQUIVO_XLSX = "INFORME_O_NOME_DO_ARQUIVO.xlsx"
 
-#Configurações do CSV
-PASTA_OUT_CSV = "csv_out"
-NOME_ARQUIVO_CSV = "google_agenda.csv"
+# Informações do novo arquivo xlsx, contendo as linhas que não foram importadas para o CSV
+PASTA_XLSX_NAO_PROCESSADOS = "INFORME_O_NOME_DA_PASTA"
+ARQUIVO_XLSX_NAO_PROCESSADOS = "INFORME_O_NOME_DO_ARQUIVO.xlsx"
+
+# Configurações do CSV
+PASTA_OUT_CSV = "INFORME_O_NOME_DA_PASTA"
+NOME_ARQUIVO_CSV = "INFORME_O_NOME_DO_ARQUIVO.csv"

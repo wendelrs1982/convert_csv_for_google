@@ -1,15 +1,18 @@
+import config
 import os
 import pandas as pd
 import re
 from datetime import datetime
 
-ANO = "2026"
+ANO = config.ANO_AGENDA
 
-PASTA_ENTRADA = "xlsx_in"
-PASTA_SAIDA = "csv_out"
+PASTA_ENTRADA = config.PASTA_IN_XLSX
+PASTA_SAIDA = config.PASTA_OUT_CSV
+PASTA_NAO_PROCESSADOS = config.PASTA_XLSX_NAO_PROCESSADOS
 
-ARQUIVO_ENTRADA = os.path.join(PASTA_ENTRADA, "agenda.xlsx")
-ARQUIVO_SAIDA = os.path.join(PASTA_SAIDA, "agenda_convertida.csv")
+ARQUIVO_ENTRADA = os.path.join(PASTA_ENTRADA, config.NOME_ARQUIVO_XLSX)
+ARQUIVO_CSV = os.path.join(PASTA_SAIDA, config.NOME_ARQUIVO_CSV)
+ARQUIVO_NAO_EXPORTADOS = os.path.join(PASTA_NAO_PROCESSADOS, config.ARQUIVO_XLSX_NAO_PROCESSADOS)
 
 os.makedirs(PASTA_SAIDA, exist_ok=True)
 
@@ -42,7 +45,6 @@ def extrair_dias(texto):
 
     return [int(re.findall(r'\d+', texto)[0])]
 
-
 def converter_hora(valor):
 
     if pd.isna(valor):
@@ -50,6 +52,11 @@ def converter_hora(valor):
 
     texto = str(valor).lower().replace("h", "").strip()
 
+    # se vier no formato 20:00:00
+    if len(texto.split(":")) == 3:
+        texto = ":".join(texto.split(":")[:2])
+
+    # se vier apenas hora (20 ou 07)
     if ":" not in texto:
         texto = f"{texto}:00"
 
@@ -57,18 +64,29 @@ def converter_hora(valor):
 
     return hora.strftime("%I:%M %p")
 
-
-print("Lendo arquivo:", ARQUIVO_ENTRADA)
+print("\nIniciando o Processamento...")
+print("Lendo o arquivo:", ARQUIVO_ENTRADA)
 
 df = pd.read_excel(ARQUIVO_ENTRADA)
 
 df = df.dropna(how="all")
 
-df = df[df["EXPORTAR"] == 1]
+# NOVA REGRA
+# exporta somente linhas com algum horário
+
+df_validos = df[
+    df["HORA INICIAL"].notna() |
+    df["HORA FINAL"].notna()
+]
+
+df_invalidos = df[
+    df["HORA INICIAL"].isna() &
+    df["HORA FINAL"].isna()
+]
 
 linhas_saida = []
 
-for _, row in df.iterrows():
+for _, row in df_validos.iterrows():
 
     mes_nome = str(row["MÊS"]).upper().strip()
 
@@ -83,18 +101,14 @@ for _, row in df.iterrows():
     hora_inicio = converter_hora(row["HORA INICIAL"])
     hora_fim = converter_hora(row["HORA FINAL"])
 
+    local = row["LOCAL"] 
+
+    if pd.isna(local) or str(local).strip() == "":
+        local = config.LOCAL_EVENTO
+
     for dia in dias:
 
         data = f"{str(dia).zfill(2)}/{mes_num}/{ANO}"
-
-        # linhas_saida.append({
-        #     "DATA": data,
-        #     "HORA_INICIO": hora_inicio,
-        #     "HORA_FIM": hora_fim,
-        #     "EVENTO": row["EVENTO"],
-        #     "LOCAL": row["LOCAL"],
-        #     "RESPONSAVEL": row["RESPONSAVEL"]
-        # })
 
         linhas_saida.append({
             "Subject": row["EVENTO"],
@@ -104,14 +118,20 @@ for _, row in df.iterrows():
             "End Time": hora_fim,
             "All Day Event": "False",
             "Description": row["RESPONSAVEL"],
-            "Location": row["LOCAL"]
+            "Location": local
         })
 
 
 df_saida = pd.DataFrame(linhas_saida)
 
-df_saida.to_csv(ARQUIVO_SAIDA, index=False, encoding="utf-8")
+df_saida.to_csv(ARQUIVO_CSV, index=False, encoding="utf-8")
 
-print("CSV gerado com sucesso!")
-print("Arquivo:", ARQUIVO_SAIDA)
-print("Total de eventos exportados:", len(df_saida))
+# Gerando XLSX com linhas não exportadas para o CSV
+df_invalidos.to_excel(ARQUIVO_NAO_EXPORTADOS, index=False)
+
+print("CSV gerado:", ARQUIVO_CSV)
+print("Eventos exportados:", len(df_saida))
+print("Eventos ignorados:", len(df_invalidos))
+print("Arquivo contendoos eventos que não foram exportados:", ARQUIVO_NAO_EXPORTADOS)  
+print("Processamento Concluído")
+print("\n")
