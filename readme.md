@@ -1,9 +1,10 @@
-# Obter dados de um arquivo xlxs e converter para CSV
-A função desse código é realizar a criação de um arquivo csv para ser importado no google agenda.
+# Obtem as informações de uma planilha e gera uma arquivo CSV
+Este script gera um arquivo CSV no formato exigido pelo Google Agenda, permitindo a importação automática de eventos a partir de uma planilha.
 
 ## Requisitos
 - pandas
 - os
+- re
 - datetime
 
 ## Instalação
