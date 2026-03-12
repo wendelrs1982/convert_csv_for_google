@@ -161,3 +161,8 @@ cython_debug/
 
 # Arquivo de configurção
 config.py
+
+# Diretórios
+out/
+apoio/
+.vscode/
