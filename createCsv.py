@@ -7,12 +7,11 @@ from datetime import datetime
 ANO = config.ANO_AGENDA
 
 PASTA_ENTRADA = config.PASTA_IN_XLSX
-PASTA_SAIDA = config.PASTA_OUT_CSV
-PASTA_NAO_PROCESSADOS = config.PASTA_XLSX_NAO_PROCESSADOS
+PASTA_SAIDA = config.PASTA_OUT
 
 ARQUIVO_ENTRADA = os.path.join(PASTA_ENTRADA, config.NOME_ARQUIVO_XLSX)
 ARQUIVO_CSV = os.path.join(PASTA_SAIDA, config.NOME_ARQUIVO_CSV)
-ARQUIVO_NAO_EXPORTADOS = os.path.join(PASTA_NAO_PROCESSADOS, config.ARQUIVO_XLSX_NAO_PROCESSADOS)
+ARQUIVO_NAO_EXPORTADOS = os.path.join(PASTA_SAIDA, config.ARQUIVO_XLSX_NAO_PROCESSADOS)
 
 os.makedirs(PASTA_SAIDA, exist_ok=True)
 
@@ -132,5 +131,5 @@ df_invalidos.to_excel(ARQUIVO_NAO_EXPORTADOS, index=False)
 print("CSV gerado:", ARQUIVO_CSV)
 print("Eventos exportados:", len(df_saida))
 print("Eventos ignorados:", len(df_invalidos))
-print("Arquivo contendoos eventos que não foram exportados:", ARQUIVO_NAO_EXPORTADOS)  
+print("Arquivo contendo os eventos que não foram exportados:", ARQUIVO_NAO_EXPORTADOS)  
 print("Processamento Concluído\n")
