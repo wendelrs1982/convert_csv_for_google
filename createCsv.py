@@ -6,7 +6,7 @@ from datetime import datetime
 
 ANO = config.ANO_AGENDA
 
-PASTA_ENTRADA = config.PASTA_IN_XLSX
+PASTA_ENTRADA = config.PASTA_IN
 PASTA_SAIDA = config.PASTA_OUT
 
 ARQUIVO_ENTRADA = os.path.join(PASTA_ENTRADA, config.NOME_ARQUIVO_XLSX)
