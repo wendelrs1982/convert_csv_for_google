@@ -32,14 +32,14 @@ project/
 ├── README.md
 ├── LICENSE
 ├── .gitignore
-|__ config-example.py
-│
+├── config-example.py
+├── config.py
 ├── in/
 │   └── agenda.xlsx
 │
 └── out/
-    ├── agenda_convertida.csv
-    └── nao_exportados.xlsx
+    ├── google_agenda.csv
+    └── eventos_nao_importados.xlsx
 ```
 
 ---
@@ -98,19 +98,20 @@ Arquivos gerados:
 
 ## 📅 Layout de planilha contendo os compromissos
 
-| MÊS   | DIA | HORA INICIAL | HORA FINAL | EVENTO                 |
-| ----- | --- | ------------ | ---------- | ---------------------- |
-| MARÇO | 19  | 20h          | 22h        | Evento 01              |
-| ABRIL | 12  | 20h          | 22h        | Evento 02              |
+|  MÊS  | DIA       | DIA DA SEMANA | HORA INICIAL | HORA FINAL |   EVENTO  |   LOCAL      |  RESPONSAVEL |
+| ----- | --------- | ------------- | ------------ | ---------- | --------- | ------------ | ------------ |
+| MARÇO | 19        |   Quarta      | 20h          | 22:00      | Evento 01 | Restaurante  | Equipe 01    |
+| ABRIL | 12 e 13   |   Quinta      | 20           | 22h        | Evento 02 | Pousada      | Equipe 02    |
 
 ---
 
 ## 📄 Layout do arquivo CSV gerado
 
-| Subject   | Start Date  |  End Date  | Start Time | End Time | All Day Event | Description | Location |
-| --------- | ----------- | ---------- | ---------- | -------- | ------------- | ----------- | -------- |
-| Evento 01 | 19/03/2026  | 19/03/2026 | 08:00 PM   | 10:00 PM |     False     |             |          |
-| Evento 02 | 12/04/2026  | 12/04/2026 | 08:00 PM   | 10:00 PM |     False     |             |          |
+| Subject   | Start Date  |  End Date  | Start Time | End Time | All Day Event | Description | Location     |
+| --------- | ----------- | ---------- | ---------- | -------- | ------------- | ----------- | ------------ |
+| Evento 01 | 19/03/2026  | 19/03/2026 | 08:00 PM   | 10:00 PM |     False     |  Equipe 01  | Restaurante  |
+| Evento 02 | 12/04/2026  | 12/04/2026 | 08:00 PM   | 10:00 PM |     False     |  Equipe 02  | Pousada      |
+| Evento 02 | 13/04/2026  | 12/04/2026 | 08:00 PM   | 10:00 PM |     False     |  Equipe 02  | Pousada      |
 
 ---
 
@@ -155,4 +156,4 @@ Este projeto está licenciado sob a licença **MIT**.
 
 ## 👤 Autor
 
-Projeto desenvolvido por **Seu Nome**.
+Projeto desenvolvido por **Wendel Ribeiro**.
